@@ -1,0 +1,37 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # adds a "Run workflow" button in the Actions tab
+
+# No permissions by default; each job asks only for what it needs.
+permissions: {}
+
+jobs:
+  # Builds the site. Only has read access, since it runs third-party npm packages.
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # download the code
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: build
+
+  # Publishes the built site. Runs no project code.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write # publish to GitHub Pages
+      id-token: write # prove to GitHub Pages that the deploy comes from this repo
+    environment: github-pages
+    steps:
+      - uses: actions/deploy-pages@v5

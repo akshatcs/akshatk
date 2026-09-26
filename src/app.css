@@ -1,0 +1,288 @@
+/*
+ * Global styles.
+ *
+ * 1. Design tokens — colours, fonts, sizes. Change the look of the site here.
+ * 2. Base         — sensible defaults for plain HTML elements.
+ * 3. Prose        — styles for rendered markdown (posts, pages).
+ * 4. Code         — syntax highlighting colours.
+ *
+ * Styles that belong to a single component (header, pagination, …) live in
+ * that component's <style> block instead, so they can't leak elsewhere.
+ */
+
+/* ----------------------------------------------------------------------------
+ * 1. Design tokens
+ * ------------------------------------------------------------------------- */
+
+:root {
+	/*
+	 * Colour theme. "light" = always light (like the original site).
+	 * Change to "light dark" to follow the visitor's OS setting,
+	 * or "dark" to always be dark. Every colour below uses
+	 * light-dark(<light value>, <dark value>).
+	 */
+	color-scheme: light;
+
+	--color-text: light-dark(rgb(36 36 36), rgb(218 218 218));
+	--color-text-muted: light-dark(rgb(117 117 117), rgb(140 140 140));
+	--color-background: light-dark(rgb(255 255 255), rgb(20 20 20));
+	--color-code-background: light-dark(rgb(249 249 249), rgb(30 30 30));
+	--color-border: light-dark(rgb(229 229 229), rgb(50 50 50));
+	--color-table-border: light-dark(rgb(176 176 176), rgb(96 96 96));
+
+	/* "Iowan Old Style" ships with macOS/iOS; other systems fall back to Georgia. */
+	--font-serif: 'Iowan Old Style', Georgia, Cambria, 'Noto Serif', ui-serif, serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+	--page-width: 780px;
+	--page-padding: 1.4em;
+	--radius: 10px;
+}
+
+/* ----------------------------------------------------------------------------
+ * 2. Base
+ * ------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	overflow-y: scroll; /* always show the scrollbar so the page doesn't jump sideways */
+	scroll-behavior: smooth;
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+body {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding-inline: var(--page-padding);
+	font-family: var(--font-serif);
+	font-size: 18px;
+	line-height: 1.6;
+	overflow-wrap: break-word;
+	color: var(--color-text);
+	background: var(--color-background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 600;
+	line-height: 1.2;
+	margin: 2rem 0 1.5rem;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 1.8em;
+}
+
+h3,
+h4,
+h5,
+h6 {
+	font-size: 1.6em;
+	margin: 1.5rem 0 1rem;
+}
+
+p {
+	margin: 1rem 0;
+	line-height: 1.3em;
+}
+
+a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+img,
+svg {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+hr {
+	border: none;
+	height: 1px;
+	background: var(--color-text-muted);
+	margin: 2rem 0;
+}
+
+/* Visible focus ring for keyboard users only. */
+:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+/* ----------------------------------------------------------------------------
+ * 3. Prose — anything rendered from markdown lives inside <div class="prose">
+ * ------------------------------------------------------------------------- */
+
+.prose {
+	/* "#" link after each heading; only visible when hovering the heading */
+	& .anchor {
+		margin-left: 0.3em;
+		font-family: var(--font-mono);
+		font-size: 0.9em;
+		font-weight: 400;
+		color: var(--color-text-muted);
+		text-decoration: none;
+		visibility: hidden;
+	}
+
+	& :is(h2, h3, h4, h5, h6):hover .anchor {
+		visibility: visible;
+	}
+
+	& ul,
+	& ol {
+		margin: 1rem 0;
+		padding-left: 2rem;
+	}
+
+	& li {
+		line-height: 1.3em;
+		margin-block: 0.3em;
+	}
+
+	/* task lists: - [x] done */
+	& li:has(> input[type='checkbox']) {
+		list-style: none;
+	}
+
+	& li > input[type='checkbox'] {
+		margin: 0 0.4em 0 -1.4em;
+	}
+
+	& blockquote {
+		margin: 1.5rem 0;
+		padding-inline: 1rem;
+		border-left: 2px solid;
+		color: var(--color-text-muted);
+	}
+
+	& figure {
+		margin: 2rem 0;
+	}
+
+	& figure img {
+		margin-inline: auto;
+		max-height: 800px;
+		width: auto;
+	}
+
+	& figcaption {
+		margin-top: 1rem;
+		text-align: center;
+		font-size: 0.8em;
+		color: var(--color-text-muted);
+	}
+
+	/* Wide tables scroll sideways instead of stretching the page. */
+	& .table-wrapper {
+		overflow-x: auto;
+		margin: 2rem 0;
+	}
+
+	& table {
+		border-collapse: collapse;
+		margin-inline: auto;
+	}
+
+	& th,
+	& td {
+		padding: 0.5rem;
+		text-align: left;
+		border: 1px solid var(--color-table-border);
+	}
+
+	& th {
+		background: var(--color-code-background);
+	}
+
+	/* Footnotes ([^1]) */
+	& .footnotes {
+		margin-top: 3rem;
+		font-size: 0.9em;
+	}
+
+	& sup {
+		line-height: 0;
+	}
+
+	/* Display equations ($$ ... $$): scroll sideways on small screens. */
+	& .katex-display {
+		overflow-x: auto;
+		overflow-y: hidden;
+		padding-block: 0.25em;
+	}
+}
+
+/* ----------------------------------------------------------------------------
+ * 4. Code
+ * ------------------------------------------------------------------------- */
+
+code {
+	font-family: var(--font-mono);
+	font-size: 0.8em;
+}
+
+/* `inline code` */
+:not(pre) > code {
+	padding: 2px;
+	border-radius: 3px;
+	background: var(--color-code-background);
+}
+
+pre {
+	position: relative;
+	margin: 2rem 0;
+	padding: 1.5rem;
+	overflow-x: auto;
+	line-height: 1.3em;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	background: var(--color-code-background);
+}
+
+/* Syntax highlighting: deliberately monochrome, using weight and style
+   instead of colours. Class names come from highlight.js. */
+.hljs-keyword,
+.hljs-built_in,
+.hljs-type,
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-operator {
+	font-weight: 700;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-symbol,
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-meta {
+	font-style: italic;
+	color: var(--color-text-muted);
+}
+
+.hljs-strong {
+	font-weight: 700;
+}

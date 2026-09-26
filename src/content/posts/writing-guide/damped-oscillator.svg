@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240" font-family="Georgia, serif" font-size="14">
+  <rect width="600" height="240" fill="#fff"/>
+  <line x1="40" y1="120" x2="580" y2="120" stroke="#999"/>
+  <line x1="40" y1="20" x2="40" y2="220" stroke="#999"/>
+  <text x="570" y="140" fill="#555">t</text>
+  <text x="18" y="30" fill="#555">x</text>
+  <path fill="none" stroke="#bbb" stroke-dasharray="4 4" d="M40 30 C 200 70, 380 105, 580 116"/>
+  <path fill="none" stroke="#bbb" stroke-dasharray="4 4" d="M40 210 C 200 170, 380 135, 580 124"/>
+  <path fill="none" stroke="#242424" stroke-width="2" d="M40 30 C 70 30, 80 190, 110 190 S 150 55, 180 55 S 220 172, 250 172 S 290 78, 320 78 S 360 155, 390 155 S 430 95, 460 95 S 500 138, 530 138 S 565 112, 580 114"/>
+</svg>
